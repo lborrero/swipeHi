@@ -18,6 +18,7 @@ $(function() {
 
   // Prompt for setting a username
   var username;
+  var userGeolocation = {};
   var connected = false;
   var typing = false;
   var lastTypingTime;
@@ -34,6 +35,19 @@ $(function() {
     }
     log(message);
   }
+
+  //Geolocation
+  function getLocation() {
+      if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition( function (position) {
+              userGeolocation = position;
+              console.log("Geolocation: " + userGeolocation.coords.latitude + ", " + userGeolocation.coords.longitude);
+          });
+      } else {
+          console.log("Geolocation is not supported by this browser.");
+      }
+  }
+
 
   // Sets the client's username
   function setUsername () {
@@ -203,6 +217,7 @@ $(function() {
         typing = false;
       } else {
         setUsername();
+        getLocation();
       }
     }
   });
