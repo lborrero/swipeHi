@@ -8,8 +8,6 @@ var port = process.env.PORT || 3000;
 
 var dataManager = require('./dataManager.js');
 
-dataManager.apiName();
-
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
 });
@@ -39,6 +37,7 @@ io.on('connection', function (socket) {
 
     // we store the username in the socket session for this client
     socket.username = username;
+    dataManager.createUser(username);
     ++numUsers;
     addedUser = true;
     socket.emit('login', {
