@@ -1,31 +1,36 @@
-var obj = {
-   table: []
-};
-
-//obj.table.push({id: 1, square:2});
-
-var json = JSON.stringify(obj);
+'use strict';
 
 var fs = require('fs');
+var exists = require('fs-exists-sync');
 
-fs.open('myjsonfile.json', 'w', function (err, file) {
-  if (err) throw err;
-  console.log('Saved!');
-});
+var obj = {
+	table: []
+};
+
+//initializing data base
+if(exists('data.json'))
+{
+	fs.readFile('data.json', function(err, data){
+		if (err) throw data;
+		obj = JSON.parse(data);
+		console.log(obj);
+	});
+}
+else
+{
+    var json = JSON.stringify(obj); //convert it back to json
+	fs.writeFile('data.json', json, 'utf8', function(err){
+		if (err) throw err;
+		console.log('created');
+	});
+}
 
 function saveFile(){
-	fs.readFile('myjsonfile.json', 'utf8', function readFileCallback(err, data){
-	    if (err){
-	        console.log(err);
-	    } else {
-	    obj = JSON.parse(data); //now it an object
-	     //add some data
-	    json = JSON.stringify(obj); //convert it back to json
-	    fs.writeFile('myjsonfile.json', json, 'utf8', function(err){
+    json = JSON.stringify(obj, null, 2); //convert it back to json
+    fs.writeFile('data.json', json, 'utf8', function(err){
 		if (err) throw err;
-			console.log('saved');
-		});
-	}});
+		console.log('saved');
+	});
 };
 
 function createUser(_userName){
@@ -37,8 +42,6 @@ function createUser(_userName){
 		obj.table.push({userName: _userName});
 		saveFile();
 	}
-	else
-		throw 'createUser -- user exists';
 }
 
 exports.createUser = createUser;
