@@ -1,0 +1,17 @@
+{
+  "table": [
+    {
+      "userName": "Leo",
+      "position": {
+        "coords": {
+          "latitude": 45.526788499999995,
+          "longitude": -73.6116888
+        },
+        "timestamp": 1517523962081
+      }
+    },
+    {
+      "userName": "LEo"
+    }
+  ]
+}

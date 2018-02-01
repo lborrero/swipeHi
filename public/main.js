@@ -9,6 +9,7 @@ $(function() {
 
   // Initialize variables
   var $window = $(window);
+  var $inputLocation = $('.inputLocation'); //Get Location button
   var $usernameInput = $('.usernameInput'); // Input for username
   var $messages = $('.messages'); // Messages area
   var $inputMessage = $('.inputMessage'); // Input message input box
@@ -42,6 +43,18 @@ $(function() {
           navigator.geolocation.getCurrentPosition( function (position) {
               userGeolocation = position;
               console.log("Geolocation: " + userGeolocation.coords.latitude + ", " + userGeolocation.coords.longitude);
+              console.log(position);
+              // Tell the server your location
+              socket.emit("add location", {
+                username: username,
+                position: {
+                  coords: {
+                    latitude: userGeolocation.coords.latitude,
+                    longitude: userGeolocation.coords.longitude
+                  },
+                  timestamp: userGeolocation.timestamp
+                }
+              });
           });
       } else {
           console.log("Geolocation is not supported by this browser.");
@@ -217,7 +230,6 @@ $(function() {
         typing = false;
       } else {
         setUsername();
-        getLocation();
       }
     }
   });
@@ -236,6 +248,11 @@ $(function() {
   // Focus input when clicking on the message input's border
   $inputMessage.click(function () {
     $inputMessage.focus();
+  });
+
+  //Get Location
+  $inputLocation.click(function() {
+    getLocation();
   });
 
   // Socket events

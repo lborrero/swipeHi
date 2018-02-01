@@ -51,6 +51,11 @@ io.on('connection', function (socket) {
     });
   });
 
+  //when the user sends their location, we save it to the live data base
+  socket.on('add location', function(data) {
+    dataManager.addLocationToUser(data);
+  });
+
   // when the client emits 'typing', we broadcast it to others
   socket.on('typing', function () {
     socket.broadcast.emit('typing', {
