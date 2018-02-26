@@ -1,3 +1,5 @@
+//Server
+
 'use strict';
 
 // Setup basic express server
@@ -21,6 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var numUsers = 0;
 
 io.on('connection', function (socket) {
+  console.log('A client just joined on', socket.id);
   var addedUser = false;
 
   // when the client emits 'new message', this listens and executes
@@ -54,6 +57,11 @@ io.on('connection', function (socket) {
   //when the user sends their location, we save it to the live data base
   socket.on('add location', function(data) {
     dataManager.addLocationToUser(data);
+    console.log('addedLocation');
+    socket.broadcast.emit('new message', {
+      username: 'leo',
+      message: data.position.coords.longitude + " " + data.position.coords.latitude
+    });
   });
 
   // when the client emits 'typing', we broadcast it to others
@@ -74,7 +82,6 @@ io.on('connection', function (socket) {
   socket.on('disconnect', function () {
     if (addedUser) {
       --numUsers;
-
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
         username: socket.username,

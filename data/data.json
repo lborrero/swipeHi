@@ -4,14 +4,30 @@
       "userName": "Leo",
       "position": {
         "coords": {
-          "latitude": 45.515997999999996,
-          "longitude": -73.5533052
+          "latitude": 45.5159871,
+          "longitude": -73.5533068
         },
-        "timestamp": 1517626661378
+        "timestamp": 1519611160292
       }
     },
     {
       "userName": "LEo"
+    },
+    {
+      "userName": "Fff"
+    },
+    {
+      "userName": "Fg"
+    },
+    {
+      "userName": "leo",
+      "position": {
+        "coords": {
+          "latitude": 45.516002199999996,
+          "longitude": -73.553364
+        },
+        "timestamp": 1519611196480
+      }
     }
   ]
 }

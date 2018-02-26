@@ -7,7 +7,7 @@
   "private": true,
   "license": "BSD",
   "dependencies": {
-    "express": "^4.13.4",
+    "express": "^4.15.2",
     "fs-exists-sync": "^0.1.0",
     "socket.io": "^2.0.4",
     "systemjs": "^0.20.19"

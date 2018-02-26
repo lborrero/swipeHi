@@ -1,11 +1,14 @@
+//Mobile App
 import React, { Component } from 'react';
 import {Text, Alert, AppRegistry, Button, StyleSheet, View } from 'react-native';
-
+import SocketIOClient from 'socket.io-client';
+import { subscribeToTimer } from './src/api';
+//const  socket = openSocket('http://localhost:3000');
 
 class Greeting extends Component {
   render() {
     return (
-      <Text>Heasdfllo {this.props.name}!</Text>
+      <Text>Heo {this.props.name}!</Text>
     );
   }
 }
@@ -20,6 +23,7 @@ export default class ButtonBasics extends Component {
       error: null,
     }
 
+    //this.socket = SocketIOClient('https://oxowvetxxa.localtunnel.me');
     this._onPressButton = this._onPressButton.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
   }
@@ -39,11 +43,11 @@ export default class ButtonBasics extends Component {
   }
 
   _onPressButton() {
-    componentDidMount();
+    this.componentDidMount();
     this.setState(prevState => ({
       numberOfMessages: prevState.numberOfMessages+1
     }));
-    Alert.alert('You tapped the button!');
+    Alert.alert('You pressed the 1 button!');
   }
 
   oneMessage(words){
