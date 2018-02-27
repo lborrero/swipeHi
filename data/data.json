@@ -4,17 +4,24 @@
       "userName": "Leo",
       "position": {
         "coords": {
-          "latitude": 45.5159871,
-          "longitude": -73.5533068
+          "latitude": 45.516019199999995,
+          "longitude": -73.5533277
         },
-        "timestamp": 1519611160292
+        "timestamp": 1519650659699
       }
     },
     {
       "userName": "LEo"
     },
     {
-      "userName": "Fff"
+      "userName": "Fff",
+      "position": {
+        "coords": {
+          "latitude": 45.515977899999996,
+          "longitude": -73.553344
+        },
+        "timestamp": 1519611666633
+      }
     },
     {
       "userName": "Fg"
@@ -28,6 +35,9 @@
         },
         "timestamp": 1519611196480
       }
+    },
+    {
+      "userName": "op"
     }
   ]
 }

@@ -11,6 +11,7 @@ var io = require('socket.io')(server);
 var port = process.env.PORT || 3000;
 
 var dataManager = require('./dataManager.js');
+var positionLog = require('./positionLog.js');
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -62,6 +63,14 @@ io.on('connection', function (socket) {
       username: 'leo',
       message: data.position.coords.longitude + " " + data.position.coords.latitude
     });
+  });
+
+  socket.on('log location', function(data) {
+    positionLog.logLocation(data);
+    console.log('top eleven');
+    console.log(positionLog.topTenLocations());
+    socket.emit('update location log', positionLog.topTenLocations());
+    socket.broadcast.emit('update location log', positionLog.topTenLocations());
   });
 
   // when the client emits 'typing', we broadcast it to others

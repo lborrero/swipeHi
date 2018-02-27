@@ -1,4 +1,5 @@
 //Client
+console.log('0.3');
 $(function() {
   var FADE_TIME = 150; // ms
   var TYPING_TIMER_LENGTH = 400; // ms
@@ -11,12 +12,15 @@ $(function() {
   // Initialize variables
   var $window = $(window);
   var $inputLocation = $('.inputLocation'); //Get Location button
+  var $logLocation = $('.logLocation'); //Log Location button
   var $usernameInput = $('.usernameInput'); // Input for username
   var $messages = $('.messages'); // Messages area
+  var $positions = $('.positions'); //Positions list
   var $inputMessage = $('.inputMessage'); // Input message input box
 
   var $loginPage = $('.login.page'); // The login page
   var $chatPage = $('.chat.page'); // The chatroom page
+  var $logPage = $('.log.page'); // The chatroom page
 
   // Prompt for setting a username
   var username;
@@ -39,24 +43,9 @@ $(function() {
   }
 
   //Geolocation
-  function getLocation() {
+  function getLocation(action) {
       if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition( function (position) {
-              userGeolocation = position;
-              console.log("Geolocation: " + userGeolocation.coords.latitude + ", " + userGeolocation.coords.longitude);
-              console.log(position);
-              // Tell the server your location
-              socket.emit("add location", {
-                username: username,
-                position: {
-                  coords: {
-                    latitude: userGeolocation.coords.latitude,
-                    longitude: userGeolocation.coords.longitude
-                  },
-                  timestamp: userGeolocation.timestamp
-                }
-              });
-          });
+          navigator.geolocation.getCurrentPosition( action );
       } else {
           console.log("Geolocation is not supported by this browser.");
       }
@@ -101,6 +90,37 @@ $(function() {
     var $el = $('<li>').addClass('log').text(message);
     addMessageElement($el, options);
   }
+
+  //Displays location log
+  function displayLocations(data) {
+    $positions.empty();
+    for (var i = 0; i < data.table.length; i++) {
+      $positions.append("<li>" + 
+        "dist: " + 
+        dist(userGeolocation.coords.longitude,
+          userGeolocation.coords.latitude,
+          data.table[i].coords.longitude,
+          data.table[i].coords.latitude
+          ) 
+        + "m, " +
+        (
+        (userGeolocation.timestamp - data.table[i].timestamp)/1000 
+        ) + "s ago</li>");
+    }
+    //console.log(data);
+  }
+
+  function dist(lon1, lat1, lon2, lat2){  // generally used geo measurement function
+    var R = 6378.137; // Radius of earth in KM
+    var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
+    var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon/2) * Math.sin(dLon/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c;
+    return d * 1000; // meters
+}
 
   // Adds the visual chat message to the message list
   function addChatMessage (data, options) {
@@ -253,7 +273,37 @@ $(function() {
 
   //Get Location
   $inputLocation.click(function() {
-    getLocation();
+    getLocation(function (position) {
+              userGeolocation = position;
+              console.log("Geolocation: " + userGeolocation.coords.latitude + ", " + userGeolocation.coords.longitude);
+              console.log(position);
+              // Tell the server your location
+              socket.emit("add location", {
+                username: username,
+                position: {
+                  coords: {
+                    latitude: userGeolocation.coords.latitude,
+                    longitude: userGeolocation.coords.longitude
+                  },
+                  timestamp: userGeolocation.timestamp
+                }
+              });
+          });
+  });
+
+  //log Location
+  $logLocation.click(function() {
+    getLocation(function (position) {
+              userGeolocation = position;
+
+              socket.emit("log location", {
+                  coords: {
+                    latitude: userGeolocation.coords.latitude,
+                    longitude: userGeolocation.coords.longitude
+                  },
+                  timestamp: userGeolocation.timestamp
+              });
+          });
   });
 
   // Socket events
@@ -268,9 +318,16 @@ $(function() {
     });
     addParticipantsMessage(data);
   });
+  
+  // Whenever the server emits 'update location log', update the chat body
+  socket.on('update location log', function (data) {
+    console.log('locations recieved' + data);
+    displayLocations(data);
+  });
 
   // Whenever the server emits 'new message', update the chat body
   socket.on('new message', function (data) {
+    console.log('message recieved');
     addChatMessage(data);
   });
 

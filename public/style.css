@@ -49,6 +49,10 @@ ul {
 /* Login Page */
 
 .login.page {
+  display: none;
+}
+
+.login.page {
   background-color: #000;
 }
 
@@ -92,9 +96,14 @@ ul {
   display: none;
 }
 
+/* Log page */
+
+.log.page {
+}
+
 /* Font */
 
-.messages {
+.messages, .postitions {
   font-size: 150%;
 }
 
@@ -111,12 +120,12 @@ ul {
 
 /* Messages */
 
-.chatArea {
+.chatArea, .positionLogDisplay {
   height: 100%;
   padding-bottom: 60px;
 }
 
-.messages {
+.messages, .positions {
   height: 100%;
   margin: 0;
   overflow-y: scroll;
@@ -148,7 +157,7 @@ ul {
   width: 100%;
 }
 
-.inputLocation {
+.inputLocation, .logLocation {
   bottom: 0px;
   height: 60px;
   left: 0;
