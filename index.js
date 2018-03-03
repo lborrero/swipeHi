@@ -1,5 +1,4 @@
 //Server
-
 'use strict';
 
 // Setup basic express server
