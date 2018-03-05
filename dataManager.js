@@ -2,6 +2,7 @@
 
 var fs = require('fs');
 var exists = require('fs-exists-sync');
+var MathUtil = require('./MathUtil.js');
 
 var path = "data/";
 
@@ -35,15 +36,30 @@ function saveFile(){
 	});
 };
 
-function createUser(_userName){
+function findUserById(_userId){
 	var found = obj.table.find(function(el){
 		//console.log(el.userName + " " + _userName + " = " + (el.userName === _userName));
-		return el.userName === _userName;
+		return el._userId === _userId;
+	});
+	return found;
+}
+
+function createUser(_userName, _userId){
+	var found = obj.table.find(function(el){
+		//console.log(el.userName + " " + _userName + " = " + (el.userName === _userName));
+		return el._userId === _userId;
 	});
 	if(!found)
 	{
-		obj.table.push({userName: _userName});
+		obj.table.push({
+			userName: _userName,
+			userId: _userId
+		});
 		saveFile();
+	}
+	else
+	{
+		throw "Random Id Matched!";
 	}
 }
 
@@ -61,6 +77,7 @@ function addLocationToUser(data){
 	}
 }
 
+exports.findUserById = findUserById;
 exports.addLocationToUser = addLocationToUser;
 exports.createUser = createUser;
 exports.obj = obj;

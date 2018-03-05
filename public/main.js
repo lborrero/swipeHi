@@ -24,25 +24,12 @@ function getCookie(cname) {
     return "";
 }
 
-function checkCookie() {
+function checkCookie(function1) {
     var user=getCookie("username");
     var userId=getCookie("userId");
-    if (user != "") {
-        alert("Welcome again " + user + " with Id: " + userId);
-    } else {
-       user = prompt("Please enter your name:","");
-       if (user != "" && user != null) {
-           setCookie("username", user, 30);
-           setCookie("userId", getRandomInt(1000000), 30);
-       }
-    }
+    console.log("checkCookie: " + user + " " + userId)
+    function1(user, userId);
 }
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
-
-checkCookie();
 
 $(function() {
   var FADE_TIME = 150; // ms
@@ -68,6 +55,7 @@ $(function() {
 
   // Prompt for setting a username
   var username;
+  var userId;
   var userGeolocation = {};
   var connected = false;
   var typing = false;
@@ -75,6 +63,51 @@ $(function() {
   var $currentInput = $usernameInput.focus();
 
   var socket = io();
+
+  checkCookie(function (_username, _userId){ 
+    //has user cookies
+    if (_userId != null && _userId != "" && _userId != "undefined") {
+      console.log("Cookies -- username: " + _username);
+      socket.emit('check user', _userId);
+    }
+    //no user cookies
+    else {
+        goToApp("login");
+        console.log("no user cookies");
+    }
+  });
+
+  function updateCookies(_username, _userId){
+    console.log("Cookies updated -- username: " + _username + ", id: " + _userId);
+    setCookie("username", _username, 30);
+    setCookie("userId", _userId, 30);
+  }
+
+  // Navigates (changes app state) to app main page
+  function goToApp(_screenName){
+    switch(_screenName)
+    {
+      case "main":
+        $loginPage.fadeOut();
+        $chatPage.show();
+        $loginPage.off('click');
+        break;
+      case "login":
+        $loginPage.show();
+        $chatPage.fadeOut();
+        break;
+    }
+  }
+
+  // Sets the client's username
+  function setUsername () {
+    username = cleanInput($usernameInput.val().trim());
+    // If the username is valid
+    if (username) {
+      // Tell the server your username
+      socket.emit('add user', username);
+    }
+  }
 
   function addParticipantsMessage (data) {
     var message = '';
@@ -93,23 +126,6 @@ $(function() {
       } else {
           console.log("Geolocation is not supported by this browser.");
       }
-  }
-
-
-  // Sets the client's username
-  function setUsername () {
-    username = cleanInput($usernameInput.val().trim());
-
-    // If the username is valid
-    if (username) {
-      $loginPage.fadeOut();
-      $chatPage.show();
-      $loginPage.off('click');
-      $currentInput = $inputMessage.focus();
-
-      // Tell the server your username
-      socket.emit('add user', username);
-    }
   }
 
   // Sends a chat message
@@ -352,6 +368,14 @@ $(function() {
 
   // Socket events
 
+  // User confirms with the server they are user
+  socket.on('is user', function (data) {
+    connected = true;
+    username=getCookie("username");
+    userId=getCookie("userId");
+    goToApp("main");
+  }) 
+
   // Whenever the server emits 'login', log the login message
   socket.on('login', function (data) {
     connected = true;
@@ -360,7 +384,6 @@ $(function() {
     log(message, {
       prepend: true
     });
-    addParticipantsMessage(data);
   });
   
   // Whenever the server emits 'update location log', update the chat body
@@ -377,8 +400,8 @@ $(function() {
 
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', function (data) {
-    log(data.username + ' joined');
-    addParticipantsMessage(data);
+    goToApp("main");
+    updateCookies(data.username, data.userId);
   });
 
   // Whenever the server emits 'user left', log it in the chat body

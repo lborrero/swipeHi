@@ -11,6 +11,7 @@ var port = process.env.PORT || 3000;
 
 var dataManager = require('./dataManager.js');
 var positionLog = require('./positionLog.js');
+var MathUtil = require('./MathUtil.js');
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -35,22 +36,27 @@ io.on('connection', function (socket) {
     });
   });
 
+  socket.on('check user', function (userId) {
+      if(dataManager.findUserById(userId)){
+          socket.emit('is user', {
+            isUser: true
+        })
+      }
+  });
+
   // when the client emits 'add user', this listens and executes
   socket.on('add user', function (username) {
     if (addedUser) return;
 
     // we store the username in the socket session for this client
     socket.username = username;
-    dataManager.createUser(username);
-    ++numUsers;
+    var userId = MathUtil.getRandomInt(1000000);
+    dataManager.createUser(username, userId);
     addedUser = true;
-    socket.emit('login', {
-      numUsers: numUsers
-    });
     // echo globally (all clients) that a person has connected
-    socket.broadcast.emit('user joined', {
+    socket.emit('user joined', {
       username: socket.username,
-      numUsers: numUsers
+      userId: userId 
     });
   });
 
