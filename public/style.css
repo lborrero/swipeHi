@@ -31,7 +31,31 @@ ul {
   word-wrap: break-word;
 }
 
+button {
+  background-color: white;
+  border-color: #2A9BE8;
+  color: #2A9BE8;
+  margin: 4px;
+}
+
+.big {
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 19pt;
+  width: 80%;
+}
+
+.edit {
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 10pt;
+}
+
 /* Pages */
+
+.off {
+  display: none;
+}
 
 .pages {
   height: 100%;
@@ -40,17 +64,14 @@ ul {
   width: 100%;
 }
 
-.page {
+.screen {
   height: 100%;
   position: absolute;
   width: 100%;
+  text-align: center;
 }
 
 /* Login Page */
-
-.login.page {
-  display: none;
-}
 
 .login.page {
   background-color: #000;
@@ -157,7 +178,7 @@ ul {
   width: 100%;
 }
 
-.inputLocation, .logLocation {
+.inputLocation {
   bottom: 0px;
   height: 60px;
   left: 0;

@@ -8,6 +8,32 @@
 </head>
 <body>
   <ul class="pages">
+    <li class="welcome screen">
+      <img src="images/welcomeImage.png">
+      <div class="user">
+        <span class="username">Leo</span>
+        <button class ="editUsername edit">Edit</button>
+      </div>
+      <button class ="logLocation big">Swipe Hi!</button>
+      <button class ="logLocation big">View Contacts</button>
+    </li>
+    <li class="proximity screen">
+      <div class="positionLogDisplay">
+        <ul class="positions"></ul>
+      </div>
+    </li>
+    <li class="profile screen">
+    </li>
+    <li class="contact screen">
+    </li>
+    <li class="contact profile screen">
+    </li>
+    <!--li class="login screen">
+      <div class="form">
+        <h3 class="title">What's your nickname?</h3>
+        <input class="usernameInput" type="text" maxlength="14" />
+      </div>
+    </li>
     <li class="chat page">
       <div class="chatArea">
         <ul class="messages"></ul>
@@ -15,22 +41,16 @@
       <input class="inputMessage" placeholder="Type here..."/>
       <button class ="inputLocation">Bump Hi</button>
     </li>
-    <li class="login page">
-      <div class="form">
-        <h3 class="title">What's your nickname?</h3>
-        <input class="usernameInput" type="text" maxlength="14" />
-      </div>
-    </li>
     <li class="log page">
       <div class="positionLogDisplay">
         <ul class="positions"></ul>
       </div>
       <button class ="logLocation">LogLocation</button>
-    </li>
+    </li-->
   </ul>
 
   <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="/main.js"></script>
+  <!--script src="/socket.io/socket.io.js"></script>
+  <script src="/main.js"></script-->
 </body>
 </html>
