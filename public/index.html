@@ -8,7 +8,7 @@
 </head>
 <body>
   <ul class="pages">
-    <li class="welcome screen">
+    <li class="welcome screen off">
       <img src="images/welcomeImage.png">
       <div class="user">
         <span class="username">Leo</span>
@@ -17,16 +17,132 @@
       <button class ="logLocation big">Swipe Hi!</button>
       <button class ="logLocation big">View Contacts</button>
     </li>
-    <li class="proximity screen">
-      <div class="positionLogDisplay">
-        <ul class="positions"></ul>
+    <li class="proximity screen off">
+      <div class="header">
+        <button class="back">Back</button>
       </div>
+      <h1 class="section">Select people you meet</h1>
+      <div class="positionLogDisplay">
+        <ul class="positions">
+          <li>
+            Jackson <input type="checkbox" name="jackson">
+          </li>
+          <li>
+            Jackson <input type="checkbox" name="jackson">
+          </li>
+          <li>
+            Jackson <input type="checkbox" name="jackson">
+          </li>
+        </ul>
+      </div>
+      <ul class="cardList">
+        <li class="cardItem">
+          <div class="card">
+            <div class="cardTitle">Leo's Card</div>
+            <button class="edit">Edit</button>
+            <ul class="info list">
+              <li>
+                <span>Phone: </span>
+                514 660-1313
+              </li>
+              <li>
+                <span>Phone: </span>
+                514 660-1313
+              </li>
+            </ul>
+            <button class="big">Share Card</button>
+          </div>
+        </li>
+      </ul>
+      <button class="big">Keep in Contacts</button>
     </li>
-    <li class="profile screen">
+    <li class="profile screen off">
+      <div class="header">
+        <button class="back">Back</button>
+      </div>
+      <button class="text button">Logout</button>
+      <ul class="cardList">
+        <li class="cardItem">
+          <div class="card">
+            <input class="usernameInput" type="text" maxlength="14" />
+            <ul class="info list">
+              <li>
+                <input class="usernameInput" type="text" maxlength="14" />
+                <input class="usernameInput" type="text" maxlength="14" />
+                <button class="remove">-</button>
+              </li>
+              <li>
+                <input class="usernameInput" type="text" maxlength="14" />
+                <input class="usernameInput" type="text" maxlength="14" />
+                <button class="remove">-</button>
+              </li>
+              <li>
+                <button class="more button">+</button>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+      <button class="text button">Done</button>
     </li>
-    <li class="contact screen">
+    <li class="contact screen off">
+      <div class="header">
+        <button class="back">Back</button>
+      </div>
+      <h1 class="section">contact</h1>
+      <ul class="positions">
+        <li>
+          Jackson
+        </li>
+        <li>
+          Jackson
+        </li>
+        <li>
+          Jackson
+        </li>
+      </ul>
     </li>
     <li class="contact profile screen">
+      <div class="header">
+        <button class="back">Back</button>
+      </div>
+      <h1 class="section">Jackson</h1>
+      <ul class="cardList">
+        <li class="cardItem">
+          <div class="card">
+            <ul class="info list">
+              <li>
+                <span>Phone: </span>
+                514 660-1313
+              </li>
+              <li>
+                <span>Phone: </span>
+                514 660-1313
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+      <ul class="cardList">
+        <li class="cardItem">
+          <div class="card">
+            <div class="cardTitle">Leo's Card</div>
+            <button class="edit">Edit</button>
+            <ul class="info list">
+              <li>
+                <span>Phone: </span>
+                514 660-1313
+              </li>
+              <li>
+                <span>Phone: </span>
+                514 660-1313
+              </li>
+            </ul>
+            <button class="big">Share Card</button>
+          </div>
+        </li>
+      </ul>
+      <button class="big">Keep in Contacts</button>
     </li>
     <!--li class="login screen">
       <div class="form">

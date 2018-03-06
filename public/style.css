@@ -31,6 +31,8 @@ ul {
   word-wrap: break-word;
 }
 
+/* Buttons */
+
 button {
   background-color: white;
   border-color: #2A9BE8;
@@ -51,6 +53,20 @@ button {
   font-size: 10pt;
 }
 
+/* Cards */
+
+.cardList {
+  
+}
+
+.card {
+  border-style: solid;
+  border-width: 1px;
+  border-color: gray;
+  border-radius: 14px;
+  margin: 12px;
+}
+
 /* Pages */
 
 .off {
@@ -69,6 +85,13 @@ button {
   position: absolute;
   width: 100%;
   text-align: center;
+}
+
+/* Welcome screen */
+
+.user{
+  text-align: right;
+  width: 90%;
 }
 
 /* Login Page */
