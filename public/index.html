@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Socket.IO 1.0 Chat Example</title>
   <link rel="stylesheet" href="style.css">
+   <script type="barTest.js"></script>
 </head>
 <body>
   <ul class="pages">
@@ -12,14 +13,14 @@
       <img src="images/welcomeImage.png">
       <div class="user">
         <span class="username">Leo</span>
-        <button class ="editUsername edit">Edit</button>
+        <button class ="editUsername edit" onclick="goToAppBinder('userScreen');" id="bar">Edit</button>
       </div>
-      <button class ="logLocation big">Swipe Hi!</button>
-      <button class ="logLocation big">View Contacts</button>
+      <button class ="logLocation big" onclick="goToAppBinder('proximityScreen');">Swipe Hi!</button>
+      <button class ="logLocation big" onclick="goToAppBinder('contactScreen');">View Contacts</button>
     </li>
-    <li class="proximity screen off">
+    <li class="proximity screen ">
       <div class="header">
-        <button class="back">Back</button>
+        <button class="back" onclick="goToAppBinder('back');">Back</button>
       </div>
       <h1 class="section">Select people you meet</h1>
       <div class="positionLogDisplay">
@@ -56,9 +57,9 @@
       </ul>
       <button class="big">Keep in Contacts</button>
     </li>
-    <li class="profile screen off">
+    <li class="user screen off">
       <div class="header">
-        <button class="back">Back</button>
+        <button class="back" onclick="goToAppBinder('back');">Back</button>
       </div>
       <button class="text button">Logout</button>
       <ul class="cardList">
@@ -87,7 +88,7 @@
     </li>
     <li class="contact screen off">
       <div class="header">
-        <button class="back">Back</button>
+        <button class="back" onclick="goToAppBinder('back');">Back</button>
       </div>
       <h1 class="section">contact</h1>
       <ul class="positions">
@@ -102,9 +103,9 @@
         </li>
       </ul>
     </li>
-    <li class="contact profile screen">
+    <li class="profile screen off">
       <div class="header">
-        <button class="back">Back</button>
+        <button class="back" onclick="goToAppBinder('back');">Back</button>
       </div>
       <h1 class="section">Jackson</h1>
       <ul class="cardList">
@@ -166,7 +167,7 @@
   </ul>
 
   <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-  <!--script src="/socket.io/socket.io.js"></script>
-  <script src="/main.js"></script-->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>

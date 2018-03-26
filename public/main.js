@@ -1,4 +1,5 @@
 //Client
+'use strict';
 console.log('0.3');
 
 function setCookie(cname,cvalue,exdays) {
@@ -31,6 +32,11 @@ function checkCookie(function1) {
     function1(user, userId);
 }
 
+//function binders
+var goToAppBinder;
+var previousScreenName;
+var currentScreenName;
+
 $(function() {
   var FADE_TIME = 150; // ms
   var TYPING_TIMER_LENGTH = 400; // ms
@@ -51,7 +57,11 @@ $(function() {
 
   var $loginPage = $('.login.page'); // The login page
   var $chatPage = $('.chat.page'); // The chatroom page
-  var $logPage = $('.log.page'); // The chatroom page
+  var $welcomeScreen = $('.welcome.screen'); //
+  var $proximityScreen = $('.proximity.screen'); //
+  var $userScreen = $('.user.screen'); //
+  var $contactScreen = $('.contact.screen'); //
+  var $contactProfileScreen = $('.profile.screen'); //
 
   // Prompt for setting a username
   var username;
@@ -84,20 +94,60 @@ $(function() {
   }
 
   // Navigates (changes app state) to app main page
-  function goToApp(_screenName){
+  goToAppBinder = function goToApp(_screenName){
+    console.log('goToApp :' + _screenName);
+    $welcomeScreen.hide();
+    $proximityScreen.hide();
+    $userScreen.hide();
+    $contactScreen.hide();
+    $contactProfileScreen.hide();
+    $chatPage.hide();
+    $loginPage.hide();
+
     switch(_screenName)
     {
       case "main":
-        $loginPage.fadeOut();
         $chatPage.show();
-        $loginPage.off('click');
+        previousScreenName = currentScreenName;
+        currentScreenName = _screenName;
         break;
       case "login":
         $loginPage.show();
-        $chatPage.fadeOut();
+        previousScreenName = currentScreenName;
+        currentScreenName = _screenName;
+        break;
+      case "userScreen":
+        $userScreen.show();
+        previousScreenName = currentScreenName;
+        currentScreenName = _screenName;
+        break;
+      case "welcome":
+        $welcomeScreen.show();
+        previousScreenName = currentScreenName;
+        currentScreenName = _screenName;
+        break;
+      case "proximityScreen":
+        $proximityScreen.show();
+        previousScreenName = currentScreenName;
+        currentScreenName = _screenName;
+        break;
+      case "contactScreen":
+        $contactScreen.show();
+        previousScreenName = currentScreenName;
+        currentScreenName = _screenName;
+        break;
+      case "contactProfileScreen":
+        $contactProfileScreen.show();
+        previousScreenName = currentScreenName;
+        currentScreenName = _screenName;
+        break;
+      case "back":
+        goToApp(previousScreenName);
         break;
     }
   }
+
+  goToAppBinder('welcome');
 
   // Sets the client's username
   function setUsername () {
@@ -180,7 +230,7 @@ $(function() {
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     var d = R * c;
     return d * 1000; // meters
-}
+  }
 
   // Adds the visual chat message to the message list
   function addChatMessage (data, options) {
