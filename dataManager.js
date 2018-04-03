@@ -38,9 +38,10 @@ function saveFile(){
 
 function findUserById(_userId){
 	var found = obj.table.find(function(el){
-		//console.log(el.userName + " " + _userName + " = " + (el.userName === _userName));
-		return el._userId === _userId;
-	});
+		//console.log(el.userId + " " + _userId + " = " + (el.userId == _userId) );
+		return el.userId == _userId;
+	}) != null;
+	console.log("findUserById: " + found);
 	return found;
 }
 

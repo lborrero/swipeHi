@@ -1,6 +1,6 @@
 //Client
 'use strict';
-console.log('0.3');
+console.log('0.4');
 
 function setCookie(cname,cvalue,exdays) {
     var d = new Date();
@@ -147,8 +147,6 @@ $(function() {
     }
   }
 
-  goToAppBinder('welcome');
-
   // Sets the client's username
   function setUsername () {
     username = cleanInput($usernameInput.val().trim());
@@ -206,6 +204,8 @@ $(function() {
     $positions.empty();
     for (var i = 0; i < data.table.length; i++) {
       $positions.append("<li>" + 
+        data.table[i].username +
+        "-- " +
         "dist: " + 
         dist(userGeolocation.coords.longitude,
           userGeolocation.coords.latitude,
@@ -403,10 +403,13 @@ $(function() {
 
   //log Location
   $logLocation.click(function() {
+    console.log("Swipe Clicked: " + username);
     getLocation(function (position) {
               userGeolocation = position;
-
+              console.log("Got geolocation");
               socket.emit("log location", {
+                  userId: userId,
+                  username: username,
                   coords: {
                     latitude: userGeolocation.coords.latitude,
                     longitude: userGeolocation.coords.longitude
@@ -420,10 +423,11 @@ $(function() {
 
   // User confirms with the server they are user
   socket.on('is user', function (data) {
-    connected = true;
+    connected = true
+    console.log("is user: " + getCookie("username"));
     username=getCookie("username");
     userId=getCookie("userId");
-    goToApp("main");
+    goToAppBinder("welcome");
   }) 
 
   // Whenever the server emits 'login', log the login message

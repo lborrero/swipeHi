@@ -37,7 +37,9 @@ io.on('connection', function (socket) {
   });
 
   socket.on('check user', function (userId) {
+      console.log("checking user: " + userId);
       if(dataManager.findUserById(userId)){
+          console.log("user found in data");
           socket.emit('is user', {
             isUser: true
         })
@@ -72,7 +74,7 @@ io.on('connection', function (socket) {
 
   socket.on('log location', function(data) {
     positionLog.logLocation(data);
-    console.log('top eleven');
+    console.log('Log this location ' + data);
     console.log(positionLog.topTenLocations());
     socket.emit('update location log', positionLog.topTenLocations());
     socket.broadcast.emit('update location log', positionLog.topTenLocations());
