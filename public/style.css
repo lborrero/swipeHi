@@ -94,13 +94,13 @@ button {
   width: 90%;
 }
 
-/* Login Page */
+/* Login screen */
 
-.login.page {
-  background-color: #000;
+.login.screen {
+  background-color: #2A9BE8;
 }
 
-.login.page .form {
+.login.screen .form {
   height: 100px;
   margin-top: -100px;
   position: absolute;
@@ -110,7 +110,7 @@ button {
   width: 100%;
 }
 
-.login.page .form .usernameInput {
+.login.screen .form .usernameInput {
   background-color: transparent;
   border: none;
   border-bottom: 2px solid #fff;
@@ -120,16 +120,16 @@ button {
   width: 400px;
 }
 
-.login.page .title {
+.login.screen .title {
   font-size: 200%;
 }
 
-.login.page .usernameInput {
+.login.screen .usernameInput {
   font-size: 200%;
   letter-spacing: 3px;
 }
 
-.login.page .title, .login.page .usernameInput {
+.login.screen .title, .login.screen .usernameInput {
   color: #fff;
   font-weight: 100;
 }

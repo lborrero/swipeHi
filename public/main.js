@@ -74,24 +74,7 @@ $(function() {
 
   var socket = io();
 
-  checkCookie(function (_username, _userId){ 
-    //has user cookies
-    if (_userId != null && _userId != "" && _userId != "undefined") {
-      console.log("Cookies -- username: " + _username);
-      socket.emit('check user', _userId);
-    }
-    //no user cookies
-    else {
-        goToApp("login");
-        console.log("no user cookies");
-    }
-  });
 
-  function updateCookies(_username, _userId){
-    console.log("Cookies updated -- username: " + _username + ", id: " + _userId);
-    setCookie("username", _username, 30);
-    setCookie("userId", _userId, 30);
-  }
 
   // Navigates (changes app state) to app main page
   goToAppBinder = function goToApp(_screenName){
@@ -147,9 +130,29 @@ $(function() {
     }
   }
 
+  checkCookie(function (_username, _userId){ 
+    //has user cookies
+    if (_userId != null && _userId != "" && _userId != "undefined") {
+      console.log("Cookies -- username: " + _username);
+      socket.emit('check user', _userId);
+    }
+    //no user cookies
+    else {
+        goToAppBinder("login");
+        console.log("no user cookies");
+    }
+  });
+
+  function updateCookies(_username, _userId){
+    console.log("Cookies updated -- username: " + _username + ", id: " + _userId);
+    setCookie("username", _username, 30);
+    setCookie("userId", _userId, 30);
+  }
+
   // Sets the client's username
   function setUsername () {
     username = cleanInput($usernameInput.val().trim());
+    console.log("setUsername: " + username);
     // If the username is valid
     if (username) {
       // Tell the server your username
@@ -454,7 +457,7 @@ $(function() {
 
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', function (data) {
-    goToApp("main");
+    goToAppBinder("welcome");
     updateCookies(data.username, data.userId);
   });
 
