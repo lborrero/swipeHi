@@ -54,8 +54,9 @@ $(function() {
   var $messages = $('.messages'); // Messages area
   var $positions = $('.positions'); //Positions list
   var $inputMessage = $('.inputMessage'); // Input message input box
+  var $usernameLabel = $('.usernameLabel'); // Welcome username label
 
-  var $loginPage = $('.login.page'); // The login page
+  var $loginPage = $('.login.screen'); // The login page
   var $chatPage = $('.chat.page'); // The chatroom page
   var $welcomeScreen = $('.welcome.screen'); //
   var $proximityScreen = $('.proximity.screen'); //
@@ -106,6 +107,7 @@ $(function() {
         break;
       case "welcome":
         $welcomeScreen.show();
+        $usernameLabel.text(username);
         previousScreenName = currentScreenName;
         currentScreenName = _screenName;
         break;
@@ -152,7 +154,7 @@ $(function() {
   // Sets the client's username
   function setUsername () {
     username = cleanInput($usernameInput.val().trim());
-    console.log("setUsername: " + username);
+    console.log("setUsername: " + $usernameInput.val());
     // If the username is valid
     if (username) {
       // Tell the server your username
@@ -358,6 +360,7 @@ $(function() {
     }
     // When the client hits ENTER on their keyboard
     if (event.which === 13) {
+      console.log('ENTER Pressed');
       if (username) {
         sendMessage();
         socket.emit('stop typing');
@@ -457,8 +460,8 @@ $(function() {
 
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', function (data) {
-    goToAppBinder("welcome");
     updateCookies(data.username, data.userId);
+    goToAppBinder("welcome");
   });
 
   // Whenever the server emits 'user left', log it in the chat body
