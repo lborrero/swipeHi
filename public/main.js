@@ -32,6 +32,16 @@ function checkCookie(function1) {
     function1(user, userId);
 }
 
+function saveToServer(savePlace, value){
+  switch(_screenName)
+    {
+      case "userScreen":
+        console.log("saveToServer: " + savePlace);
+        console.log("saveToServer: " + value.elements.length);
+        break;
+    }
+}
+
 //function binders
 var goToAppBinder;
 var previousScreenName;
@@ -55,6 +65,7 @@ $(function() {
   var $positions = $('.positions'); //Positions list
   var $inputMessage = $('.inputMessage'); // Input message input box
   var $usernameLabel = $('.usernameLabel'); // Welcome username label
+  var $usernameValue = $('#usernameValue'); // input field for user name
 
   var $loginPage = $('.login.screen'); // The login page
   var $chatPage = $('.chat.page'); // The chatroom page
@@ -74,8 +85,6 @@ $(function() {
   var $currentInput = $usernameInput.focus();
 
   var socket = io();
-
-
 
   // Navigates (changes app state) to app main page
   goToAppBinder = function goToApp(_screenName){
@@ -102,6 +111,7 @@ $(function() {
         break;
       case "userScreen":
         $userScreen.show();
+        $usernameValue.val(username);
         previousScreenName = currentScreenName;
         currentScreenName = _screenName;
         break;
@@ -433,7 +443,7 @@ $(function() {
     console.log("is user: " + getCookie("username"));
     username=getCookie("username");
     userId=getCookie("userId");
-    goToAppBinder("welcome");
+    goToAppBinder("userScreen");
   }) 
 
   // Whenever the server emits 'login', log the login message

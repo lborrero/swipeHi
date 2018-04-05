@@ -62,30 +62,25 @@
         <button class="back" onclick="goToAppBinder('back');">Back</button>
       </div>
       <button class="text button">Logout</button>
+      <form action="javascript:;" onsubmit="saveToServer('userScreen', this);">
+      <label for="username">Username</label>
+      <input class="inputField" id="usernameValue" legend="username" type="text" maxlength="14" />
       <ul class="cardList">
         <li class="cardItem">
           <div class="card">
-            <input class="inputField" type="text" maxlength="14" />
-            <ul class="info list">
-              <li>
-                <input class="inputField" type="text" maxlength="14" name="mediaType1" value="mobile"/>
-                <input class="inputField" type="text" maxlength="14" name="mediaURL" value="5146601313"/>
-                <button class="remove">-</button>
-              </li>
-              <li>
-                <input class="inputField" type="text" maxlength="14" />
-                <input class="inputField" type="text" maxlength="14" />
-                <button class="remove">-</button>
-              </li>
-              <li>
-                <button class="more button">+</button>
-              </li>
-            </ul>
+              Mobile:
+              <input type="text" name="firstname" value="Mickey"><!--button class="remove">-</button-->
+              <br>
+              Email:
+              <input type="text" name="lastname" value="Mouse">
+              <br>
           </div>
         </li>
       </ul>
-      <button class="text button">Done</button>
+      <input class="text big button" type="submit" value="Save">
+      </form>
     </li>
+
     <li class="contact screen off">
       <div class="header">
         <button class="back" onclick="goToAppBinder('back');">Back</button>
