@@ -45,12 +45,14 @@ function findUserById(_userId){
 	return found;
 }
 
-function createUser(_userName, _userId){
-	var found = obj.table.find(function(el){
-		//console.log(el.userName + " " + _userName + " = " + (el.userName === _userName));
-		return el._userId === _userId;
+function getUserById(_userId){
+	return obj.table.find(function(el){
+		return el.userId == _userId;
 	});
-	if(!found)
+}
+
+function createUser(_userName, _userId){
+	if(!findUserById(data.userId))
 	{
 		obj.table.push({
 			userName: _userName,
@@ -61,6 +63,24 @@ function createUser(_userName, _userId){
 	else
 	{
 		throw "Random Id Matched!";
+	}
+}
+
+function updateUserCardInfo(data){
+	var user;
+	obj.table.find(function(el){
+		user = el;
+		return el.userId == data.userId;
+	})
+	if(findUserById(data.userId))
+	{
+		user.userName = data.username;
+		user.card = data.card;
+		saveFile();
+	}
+	else
+	{
+		console.log('no id found: ' + data.userId);
 	}
 }
 
@@ -79,6 +99,8 @@ function addLocationToUser(data){
 }
 
 exports.findUserById = findUserById;
+exports.getUserById = getUserById;
 exports.addLocationToUser = addLocationToUser;
 exports.createUser = createUser;
+exports.updateUserCardInfo = updateUserCardInfo;
 exports.obj = obj;

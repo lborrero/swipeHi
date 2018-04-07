@@ -2,6 +2,9 @@
 'use strict';
 console.log('0.4');
 
+  var username;
+  var userId;
+
 function setCookie(cname,cvalue,exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -33,14 +36,26 @@ function checkCookie(function1) {
 }
 
 function saveToServer(savePlace, value){
-  switch(_screenName)
+  switch(savePlace)
     {
       case "userScreen":
         console.log("saveToServer: " + savePlace);
         console.log("saveToServer: " + value.elements.length);
+        var userInfo = {
+          userId: userId,
+          username: value.elements[0].value,
+          card: {
+            mobile: value.elements[1].value,
+            email: value.elements[2].value,
+          }
+        };
+        socket.emit('update user card data', userInfo);
         break;
     }
 }
+
+
+var socket = io();
 
 //function binders
 var goToAppBinder;
@@ -76,15 +91,11 @@ $(function() {
   var $contactProfileScreen = $('.profile.screen'); //
 
   // Prompt for setting a username
-  var username;
-  var userId;
   var userGeolocation = {};
   var connected = false;
   var typing = false;
   var lastTypingTime;
   var $currentInput = $usernameInput.focus();
-
-  var socket = io();
 
   // Navigates (changes app state) to app main page
   goToAppBinder = function goToApp(_screenName){
@@ -101,44 +112,37 @@ $(function() {
     {
       case "main":
         $chatPage.show();
-        previousScreenName = currentScreenName;
-        currentScreenName = _screenName;
         break;
       case "login":
         $loginPage.show();
-        previousScreenName = currentScreenName;
-        currentScreenName = _screenName;
         break;
       case "userScreen":
         $userScreen.show();
         $usernameValue.val(username);
-        previousScreenName = currentScreenName;
-        currentScreenName = _screenName;
+        socket.emit('get user card info', userId);
         break;
       case "welcome":
         $welcomeScreen.show();
         $usernameLabel.text(username);
-        previousScreenName = currentScreenName;
-        currentScreenName = _screenName;
         break;
       case "proximityScreen":
         $proximityScreen.show();
-        previousScreenName = currentScreenName;
-        currentScreenName = _screenName;
         break;
       case "contactScreen":
         $contactScreen.show();
-        previousScreenName = currentScreenName;
-        currentScreenName = _screenName;
         break;
       case "contactProfileScreen":
         $contactProfileScreen.show();
-        previousScreenName = currentScreenName;
-        currentScreenName = _screenName;
         break;
       case "back":
         goToApp(previousScreenName);
         break;
+    }
+    if(_screenName != "back" && 
+      _screenName != previousScreenName)
+    {
+      previousScreenName = currentScreenName;
+      currentScreenName = _screenName;
     }
   }
 
@@ -454,6 +458,15 @@ $(function() {
     log(message, {
       prepend: true
     });
+  });
+
+  socket.on('recieve user card info', function (value) {
+    $(".user.screen #usernameValue").val(value.userName);
+    if(value.card != null)
+    {
+      $(".user.screen .card input[name='mobile']").val(value.card.mobile);
+      $(".user.screen .card input[name='email']").val(value.card.email);
+    }
   });
   
   // Whenever the server emits 'update location log', update the chat body

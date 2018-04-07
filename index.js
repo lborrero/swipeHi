@@ -46,6 +46,18 @@ io.on('connection', function (socket) {
       }
   });
 
+  socket.on('get user card info', function (userId) {
+    socket.emit('recieve user card info', dataManager.getUserById(userId));
+  });
+
+  socket.on('update user card data', function (value) {
+    console.log(value.username);
+    console.log(value.card.mobile);
+    console.log(value.card.email);
+    dataManager.updateUserCardInfo(value);
+    socket.emit('recieve user card info', dataManager.getUserById(value.userId));
+  });
+
   // when the client emits 'add user', this listens and executes
   socket.on('add user', function (username) {
     if (addedUser) return;
