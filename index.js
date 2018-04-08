@@ -84,7 +84,7 @@ io.on('connection', function (socket) {
 
   socket.on('log location', function(data) {
     positionLog.logLocation(data);
-    console.log('Log this location ' + data);
+    console.log('Log this location ' + data.timestamp);
     console.log(positionLog.topTenLocations());
     socket.emit('update location log', positionLog.topTenLocations());
     socket.broadcast.emit('update location log', positionLog.topTenLocations());

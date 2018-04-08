@@ -36,7 +36,23 @@ function saveFile(){
 	});
 };
 
+function getUserById(_userId){
+	return obj.table.find(function(el){
+		return el.userId == _userId;
+	});
+}
+
 function logLocation(data){
+	var index;
+	for (var i = 0; i < obj.table.length; i++) {
+		if (obj.table[i].userId == data.userId) {
+			index = i;
+			break;
+		}
+	}
+	if (index > -1) {
+	    obj.table.splice(index, 1);
+	}
 	obj.table.unshift(data);
 	saveFile();
 }

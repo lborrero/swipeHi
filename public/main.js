@@ -29,6 +29,7 @@ function getCookie(cname) {
 }
 
 function checkCookie(function1) {
+    $("#statusMessage").text("checking cookies");
     var user=getCookie("username");
     var userId=getCookie("userId");
     console.log("checkCookie: " + user + " " + userId)
@@ -89,7 +90,7 @@ $(function() {
   var $contactProfileScreen = $('.profile.screen'); //
 
   // Prompt for setting a username
-  var userGeolocation = {};
+  var userGeolocation;
   var connected = false;
   var typing = false;
   var lastTypingTime;
@@ -147,6 +148,7 @@ $(function() {
     //has user cookies
     if (_userId != null && _userId != "" && _userId != "undefined") {
       console.log("Cookies -- username: " + _username);
+      $("#statusMessage").text("cookies found. checking user info with server");
       socket.emit('check user', _userId);
     }
     //no user cookies
@@ -188,6 +190,7 @@ $(function() {
       if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition( action );
       } else {
+          $("#statusMessage").text("Geolocation is not supported by this device");
           console.log("Geolocation is not supported by this browser.");
       }
   }
@@ -217,21 +220,30 @@ $(function() {
 
   //Displays location log
   function displayLocations(data) {
+    $("#statusMessage").text("displaying nearby");
+    console.log(data.table[0].coords);
     $positions.empty();
     for (var i = 0; i < data.table.length; i++) {
-      $positions.append("<li>" + 
-        data.table[i].username +
-        "-- " +
-        "dist: " + 
-        dist(userGeolocation.coords.longitude,
-          userGeolocation.coords.latitude,
-          data.table[i].coords.longitude,
-          data.table[i].coords.latitude
-          ) 
-        + "m, " +
-        (
-        (userGeolocation.timestamp - data.table[i].timestamp)/1000 
-        ) + "s ago</li>");
+      var _geoData;
+      var _timeData;
+      if (userGeolocation.coords != null &&
+          userGeolocation.timestamp != null) {
+        _geoData = dist(userGeolocation.coords.longitude,
+            userGeolocation.coords.latitude,
+            data.table[i].coords.longitude,
+            data.table[i].coords.latitude
+            );
+        _timeData = (userGeolocation.timestamp - data.table[i].timestamp)/1000;
+      }
+        $positions.append("<li>" + 
+          data.table[i].username +
+          "-- " +
+          "dist: " + 
+          _geoData + 
+          "m, " +
+          _timeData + "s ago" + 
+          "<input type='checkbox' name='" + data.table[i].username + "'>" + 
+          "</li>");
     }
     //console.log(data);
   }
@@ -398,42 +410,42 @@ $(function() {
     $inputMessage.focus();
   });
 
-  //Get Location
-  $inputLocation.click(function() {
-    getLocation(function (position) {
-              userGeolocation = position;
-              console.log("Geolocation: " + userGeolocation.coords.latitude + ", " + userGeolocation.coords.longitude);
-              console.log(position);
-              // Tell the server your location
-              socket.emit("add location", {
-                username: username,
-                position: {
-                  coords: {
-                    latitude: userGeolocation.coords.latitude,
-                    longitude: userGeolocation.coords.longitude
-                  },
-                  timestamp: userGeolocation.timestamp
-                }
-              });
-          });
-  });
-
   //log Location
   $logLocation.click(function() {
     console.log("Swipe Clicked: " + username);
-    getLocation(function (position) {
-              userGeolocation = position;
-              console.log("Got geolocation");
-              socket.emit("log location", {
-                  userId: userId,
-                  username: username,
-                  coords: {
-                    latitude: userGeolocation.coords.latitude,
-                    longitude: userGeolocation.coords.longitude
-                  },
-                  timestamp: userGeolocation.timestamp
-              });
-          });
+    if(userGeolocation != null){
+      console.log('already have geolocation');
+      var d = new Date();
+      var n = d.getTime();
+      userGeolocation.timestamp = n;
+      socket.emit("log location", {
+          userId: userId,
+          username: username,
+          coords: {
+            latitude: userGeolocation.coords.latitude,
+            longitude: userGeolocation.coords.longitude
+          },
+          timestamp: userGeolocation.timestamp
+      });
+    }else{
+      $("#statusMessage").text("getting your geolocation from device");
+      userGeolocation = {};
+      getLocation(function (position) {
+        userGeolocation.coords = position.coords;
+        userGeolocation.timestamp = position.timestamp;
+        console.log("Got geolocation: " + userGeolocation.coords.latitude);
+        $("#statusMessage").text("getting others geolocation");
+        socket.emit("log location", {
+            userId: userId,
+            username: username,
+            coords: {
+              latitude: userGeolocation.coords.latitude,
+              longitude: userGeolocation.coords.longitude
+            },
+            timestamp: userGeolocation.timestamp
+        });
+      });
+    }
   });
 
   // Socket events
@@ -441,6 +453,7 @@ $(function() {
   // User confirms with the server they are user
   socket.on('is user', function (data) {
     connected = true
+    $("#statusMessage").text("welcome");
     console.log("is user: " + data.username);
     setCookie(data.username, data.userId);
     username=data.username;
@@ -473,7 +486,7 @@ $(function() {
   
   // Whenever the server emits 'update location log', update the chat body
   socket.on('update location log', function (data) {
-    console.log('locations recieved' + data);
+    console.log('locations recieved: ' + data.table);
     displayLocations(data);
   });
 
