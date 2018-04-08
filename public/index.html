@@ -12,7 +12,7 @@
     <li class="welcome screen off">
       <img src="images/welcomeImage.png">
       <div class="user">
-        <span class="usernameLabel">sdd</span>
+        <span class="usernameLabel"></span>
         <button class ="editUsername edit" onclick="goToAppBinder('userScreen');" id="bar">Edit</button>
       </div>
       <button class ="logLocation big" onclick="goToAppBinder('proximityScreen');">Swipe Hi!</button>
@@ -20,9 +20,9 @@
     </li>
     <li class="proximity screen ">
       <div class="header">
-        <button class="back" onclick="goToAppBinder('back');">Back</button>
+        <button class="back" onclick="goToAppBinder('welcome');">Back</button>
       </div>
-      <h1 class="section">Select people you meet</h1>
+      <h1 class="section">Select</h1>
       <div class="positionLogDisplay">
         <ul class="positions">
           <li>
@@ -59,7 +59,7 @@
     </li>
     <li class="user screen off">
       <div class="header">
-        <button class="back" onclick="goToAppBinder('back');">Back</button>
+        <button class="back" onclick="goToAppBinder('welcome');">Back</button>
       </div>
       <button class="text button">Logout</button>
       <form action="javascript:;" onsubmit="saveToServer('userScreen', this);">
@@ -69,10 +69,10 @@
         <li class="cardItem">
           <div class="card">
               Mobile:
-              <input type="text" name="mobile" value="Mickey"><!--button class="remove">-</button-->
+              <input type="text" name="mobile" value=""><!--button class="remove">-</button-->
               <br>
               Email:
-              <input type="text" name="email" value="Mouse">
+              <input type="text" name="email" value="">
               <br>
           </div>
         </li>
@@ -83,7 +83,7 @@
 
     <li class="contact screen off">
       <div class="header">
-        <button class="back" onclick="goToAppBinder('back');">Back</button>
+        <button class="back" onclick="goToAppBinder('welcome');">Back</button>
       </div>
       <h1 class="section">contact</h1>
       <ul class="positions">
@@ -100,7 +100,7 @@
     </li>
     <li class="profile screen off">
       <div class="header">
-        <button class="back" onclick="goToAppBinder('back');">Back</button>
+        <button class="back" onclick="goToAppBinder('welcome');">Back</button>
       </div>
       <h1 class="section">Jackson</h1>
       <ul class="cardList">

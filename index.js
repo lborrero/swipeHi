@@ -40,9 +40,7 @@ io.on('connection', function (socket) {
       console.log("checking user: " + userId);
       if(dataManager.findUserById(userId)){
           console.log("user found in data");
-          socket.emit('is user', {
-            isUser: true
-        })
+          socket.emit('is user', dataManager.getUserById(userId));
       }
   });
 

@@ -1,1 +1,31 @@
-{"table":[]}
+{
+  "table": [
+    {
+      "userId": 29227,
+      "username": "Yo",
+      "coords": {
+        "latitude": 45.516022799999995,
+        "longitude": -73.553375
+      },
+      "timestamp": 1523149898664
+    },
+    {
+      "userId": 388623,
+      "username": "Leo",
+      "coords": {
+        "latitude": 45.5160631,
+        "longitude": -73.5533312
+      },
+      "timestamp": 1523149778781
+    },
+    {
+      "userId": 29227,
+      "username": "Yo",
+      "coords": {
+        "latitude": 45.5159853,
+        "longitude": -73.5533684
+      },
+      "timestamp": 1523149498205
+    }
+  ]
+}

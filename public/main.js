@@ -79,9 +79,7 @@ $(function() {
   var $messages = $('.messages'); // Messages area
   var $positions = $('.positions'); //Positions list
   var $inputMessage = $('.inputMessage'); // Input message input box
-  var $usernameLabel = $('.usernameLabel'); // Welcome username label
-  var $usernameValue = $('#usernameValue'); // input field for user name
-
+  
   var $loginPage = $('.login.screen'); // The login page
   var $chatPage = $('.chat.page'); // The chatroom page
   var $welcomeScreen = $('.welcome.screen'); //
@@ -118,12 +116,11 @@ $(function() {
         break;
       case "userScreen":
         $userScreen.show();
-        $usernameValue.val(username);
         socket.emit('get user card info', userId);
         break;
       case "welcome":
         $welcomeScreen.show();
-        $usernameLabel.text(username);
+        $('.welcome.screen .usernameLabel').text(username);
         break;
       case "proximityScreen":
         $proximityScreen.show();
@@ -138,7 +135,7 @@ $(function() {
         goToApp(previousScreenName);
         break;
     }
-    if(_screenName != "back" && 
+    if( 
       _screenName != previousScreenName)
     {
       previousScreenName = currentScreenName;
@@ -444,10 +441,12 @@ $(function() {
   // User confirms with the server they are user
   socket.on('is user', function (data) {
     connected = true
-    console.log("is user: " + getCookie("username"));
-    username=getCookie("username");
-    userId=getCookie("userId");
-    goToAppBinder("userScreen");
+    console.log("is user: " + data.username);
+    setCookie(data.username, data.userId);
+    username=data.username;
+    userId=data.userId;
+    $('.welcome.screen .usernameLabel').text(username);
+    goToAppBinder('welcome');
   }) 
 
   // Whenever the server emits 'login', log the login message
@@ -461,7 +460,10 @@ $(function() {
   });
 
   socket.on('recieve user card info', function (value) {
-    $(".user.screen #usernameValue").val(value.userName);
+    console.log('recieved card info');
+    username = value.username;
+    $(".user.screen #usernameValue").val(value.username);
+    updateCookies(value.username, value.userId);
     if(value.card != null)
     {
       $(".user.screen .card input[name='mobile']").val(value.card.mobile);
@@ -484,7 +486,7 @@ $(function() {
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', function (data) {
     updateCookies(data.username, data.userId);
-    goToAppBinder("welcome");
+    goToAppBinder('welcome');
   });
 
   // Whenever the server emits 'user left', log it in the chat body

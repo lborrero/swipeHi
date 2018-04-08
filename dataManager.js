@@ -51,11 +51,11 @@ function getUserById(_userId){
 	});
 }
 
-function createUser(_userName, _userId){
-	if(!findUserById(data.userId))
+function createUser(_username, _userId){
+	if(!findUserById(_userId))
 	{
 		obj.table.push({
-			userName: _userName,
+			username: _username,
 			userId: _userId
 		});
 		saveFile();
@@ -72,9 +72,13 @@ function updateUserCardInfo(data){
 		user = el;
 		return el.userId == data.userId;
 	})
+	if(data.userId == null)
+	{
+		return null;
+	}
 	if(findUserById(data.userId))
 	{
-		user.userName = data.username;
+		user.username = data.username;
 		user.card = data.card;
 		saveFile();
 	}
@@ -89,7 +93,7 @@ function addLocationToUser(data){
 	var user;
 	var found = obj.table.find(function(el){
 		user = el;
-		return el.userName === data.username;
+		return el.username === data.username;
 	});
 	if(found)
 	{
