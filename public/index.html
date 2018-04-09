@@ -24,11 +24,15 @@
         <button class="back" onclick="goToAppBinder('welcome');">Back</button>
       </div>
       <h1 class="section">Select</h1>
-      <div class="positionLogDisplay">
-        <ul class="positions">
-          <li>Invite others to swipe</li>
-        </ul>
-      </div>
+      <form action="javascript:;" onsubmit="saveToServer('proximityScreen', this);">
+        <div class="positionLogDisplay">
+          <ul class="positions">
+            <li>Invite others to swipe</li>
+          </ul>
+        </div>
+        <input class="text big button" type="submit" value="Keep in Contacts">
+      </form>
+
       <ul class="cardList">
         <li class="cardItem">
           <div class="card">
@@ -48,7 +52,6 @@
           </div>
         </li>
       </ul>
-      <button class="big">Keep in Contacts</button>
     </li>
     <li class="user screen off">
       <div class="header">

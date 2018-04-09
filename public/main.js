@@ -40,6 +40,7 @@ function saveToServer(savePlace, value){
   switch(savePlace)
     {
       case "userScreen":
+        $("#statusMessage").text("checking cookies");
         console.log("saveToServer: " + savePlace);
         console.log("saveToServer: " + value.elements.length);
         var userInfo = {
@@ -51,6 +52,19 @@ function saveToServer(savePlace, value){
           }
         };
         socket.emit('update user card data', userInfo);
+        break;
+      case "proximityScreen":
+        $("#statusMessage").text("adding contact to user contact list");
+        $('.contactItem:checked').each(function( index ) {
+          console.log( index + ": " + $( this ).val() );
+          if($( this ).val() != null)
+          {
+            socket.emit('add to user contacts list', {
+              userId: userId,
+              contactId: $( this ).val()
+            });
+          }
+        });
         break;
     }
 }
@@ -90,7 +104,13 @@ $(function() {
   var $contactProfileScreen = $('.profile.screen'); //
 
   // Prompt for setting a username
-  var userGeolocation;
+  var userGeolocation = {
+        coords: {
+          latitude: 0,
+          longitude: 0
+        },
+        timestamp: 0
+      };
   var connected = false;
   var typing = false;
   var lastTypingTime;
@@ -235,15 +255,18 @@ $(function() {
             );
         _timeData = (userGeolocation.timestamp - data.table[i].timestamp)/1000;
       }
-        $positions.append("<li>" + 
+      if(data.table[i].userId != userId)
+      {
+        $positions.append("<li><label>" + 
           data.table[i].username +
-          "-- " +
+          /*"-- " +
           "dist: " + 
           _geoData + 
           "m, " +
-          _timeData + "s ago" + 
-          "<input type='checkbox' name='" + data.table[i].username + "'>" + 
-          "</li>");
+          _timeData + "s ago" + */
+          "<input class='contactItem' type='checkbox' value='" + data.table[i].userId + "' name='" + data.table[i].username + "'>" + 
+          "</label></li>");
+      }
     }
     //console.log(data);
   }
@@ -482,6 +505,12 @@ $(function() {
       $(".user.screen .card input[name='mobile']").val(value.card.mobile);
       $(".user.screen .card input[name='email']").val(value.card.email);
     }
+  });
+
+  socket.on('contact added to user list', function(_userId){
+    $("#statusMessage").text("userId " + _userId + " added to contact list");
+    /*.contactItem */
+    $("input[value='" + _userId + "']").parent("label").css("background", "red");
   });
   
   // Whenever the server emits 'update location log', update the chat body

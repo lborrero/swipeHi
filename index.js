@@ -90,6 +90,12 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('update location log', positionLog.topTenLocations());
   });
 
+  socket.on('add to user contacts list', function(data) {
+      dataManager.addContactToUser(data);
+      socket.emit('contact added to user list', data.userId);
+    });
+
+
   // when the client emits 'typing', we broadcast it to others
   socket.on('typing', function () {
     socket.broadcast.emit('typing', {

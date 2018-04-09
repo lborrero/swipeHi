@@ -135,6 +135,16 @@ button, .button {
   font-weight: 100;
 }
 
+/*Proximity Screen */
+.positionLogDisplay .positions{
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.positionLogDisplay .positions input[type="checkbox" i]{
+  height: 1rem;
+}
+
 /* Chat page */
 
 .chat.page {

@@ -102,9 +102,35 @@ function addLocationToUser(data){
 	}
 }
 
+function addContactToUser(data){
+	var user;
+	obj.table.find(function(el){
+		user = el;
+		return el.userId == data.userId;
+	})
+	if(data.userId == null)
+	{
+		return null;
+	}
+	if(findUserById(data.userId))
+	{
+		if(user.contact == null)
+		{
+			user.contact = [];
+		}
+		user.contact.push(data.userId);
+		saveFile();
+	}
+	else
+	{
+		console.log('no id found: ' + data.userId);
+	}
+}
+
 exports.findUserById = findUserById;
 exports.getUserById = getUserById;
 exports.addLocationToUser = addLocationToUser;
+exports.addContactToUser = addContactToUser;
 exports.createUser = createUser;
 exports.updateUserCardInfo = updateUserCardInfo;
 exports.obj = obj;
