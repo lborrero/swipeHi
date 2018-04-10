@@ -4,6 +4,7 @@ console.log('0.4');
 
   var username;
   var userId;
+  var userContactList = [];
 
 function setCookie(cname,cvalue,exdays) {
     var d = new Date();
@@ -145,9 +146,12 @@ $(function() {
         break;
       case "proximityScreen":
         $proximityScreen.show();
+        socket.emit('get user card info', userId);
         break;
       case "contactScreen":
         $contactScreen.show();
+        $("#statusMessage").text("getting contacts");
+        socket.emit('get user contacts', userId);
         break;
       case "contactProfileScreen":
         $contactProfileScreen.show();
@@ -496,6 +500,7 @@ $(function() {
   });
 
   socket.on('recieve user card info', function (value) {
+    $("#statusMessage").text("card info update");
     console.log('recieved card info');
     username = value.username;
     $(".user.screen #usernameValue").val(value.username);
@@ -504,13 +509,26 @@ $(function() {
     {
       $(".user.screen .card input[name='mobile']").val(value.card.mobile);
       $(".user.screen .card input[name='email']").val(value.card.email);
+      $(".proximity.screen .card .cardTitle").text(value.username + "'s card");
+      $(".proximity.screen .card .mobile").text(value.card.mobile);
+      $(".proximity.screen .card .email").text(value.card.mobile);
     }
   });
 
-  socket.on('contact added to user list', function(_userId){
-    $("#statusMessage").text("userId " + _userId + " added to contact list");
-    /*.contactItem */
-    $("input[value='" + _userId + "']").parent("label").css("background", "red");
+  socket.on('contact added to user list', function(value){
+    $("#statusMessage").text("userId " + value.userId + value.username + " added to contact list");
+    /*.contactItem  input[value='" + _userId + "']*/
+    $("input.contactItem:checked").parent("label").addClass("isMyContact");
+  });
+
+  socket.on('here are user contact', function(data){
+    $("#statusMessage").text("recieved contacts");
+    $(".contact.screen .contactList").empty();
+    for (var i = 0; i < data.length; i++) {
+      $(".contact.screen .contactList").append("<li>UserId: " + 
+        data[i] +
+        "</li>");
+    }
   });
   
   // Whenever the server emits 'update location log', update the chat body

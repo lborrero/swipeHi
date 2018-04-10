@@ -92,9 +92,11 @@ io.on('connection', function (socket) {
 
   socket.on('add to user contacts list', function(data) {
       dataManager.addContactToUser(data);
-      socket.emit('contact added to user list', data.userId);
+      socket.emit('contact added to user list', {
+        userId: data.userId, 
+        username: (dataManager.getUserById(data.contactId).username),
+      });
     });
-
 
   // when the client emits 'typing', we broadcast it to others
   socket.on('typing', function () {
@@ -108,6 +110,10 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('stop typing', {
       username: socket.username
     });
+  });
+
+  socket.on('get user contacts', function(_userId){
+    socket.emit('here are user contact', dataManager.getUserContacts(_userId))
   });
 
   // when the user disconnects.. perform this

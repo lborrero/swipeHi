@@ -118,8 +118,13 @@ function addContactToUser(data){
 		{
 			user.contact = [];
 		}
-		user.contact.push(data.userId);
-		saveFile();
+		if(user.contact.find(function(el){
+			return el == data.contactId;
+		}) == null)
+		{			
+			user.contact.push(data.contactId);
+			saveFile();
+		}
 	}
 	else
 	{
@@ -127,6 +132,20 @@ function addContactToUser(data){
 	}
 }
 
+function getUserContacts(_userId){
+	if(_userId == null)
+	{
+		return null;
+	}
+	var user;
+	obj.table.find(function(el){
+		user = el;
+		return el.userId == _userId;
+	})
+	return user.contact;
+}
+
+exports.getUserContacts = getUserContacts;
 exports.findUserById = findUserById;
 exports.getUserById = getUserById;
 exports.addLocationToUser = addLocationToUser;

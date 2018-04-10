@@ -145,6 +145,18 @@ button, .button {
   height: 1rem;
 }
 
+.isMyContact{
+  color: #2A9BE8;
+}
+
+/* Contact Screen*/
+
+.contact.screen .contactList{
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2A9BE8;
+}
+
 /* Chat page */
 
 .chat.page {
