@@ -142,7 +142,15 @@ function getUserContacts(_userId){
 		user = el;
 		return el.userId == _userId;
 	})
-	return user.contact;
+	var list = [];
+	for (var i = 0; i < user.contact.length; i++) {
+		var contactItem = {
+			userId: user.contact[i],
+			username: getUserById(user.contact[i]).username
+		};
+		list.push(contactItem);
+	 }
+	return list;
 }
 
 exports.getUserContacts = getUserContacts;

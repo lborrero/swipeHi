@@ -525,8 +525,11 @@ $(function() {
     $("#statusMessage").text("recieved contacts");
     $(".contact.screen .contactList").empty();
     for (var i = 0; i < data.length; i++) {
-      $(".contact.screen .contactList").append("<li>UserId: " + 
-        data[i] +
+      $(".contact.screen .contactList").append(
+        "<li class='contactListItem' value='" + 
+        data.userId + 
+        "'>" + 
+        data[i].username +
         "</li>");
     }
   });
